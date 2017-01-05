@@ -37,8 +37,9 @@ class Capture:
                     yield Port
 
     def getTCP_request(self):
+       #TODO 停不下来,还没思路
         """应用层（HTTP）"""
-        TCPdata = dict.fromkeys(("body", "version", "method", "header", "uri"),"")
+        TCPdata = dict.fromkeys(("body", "version", "method", "header", "uri"),None)
         TCPs = self.getIP()
         for TCP in TCPs:
             if TCP[1].__class__.__name__ == "TCP":
@@ -50,10 +51,11 @@ class Capture:
                     TCPdata["method"] = rs.method
                     TCPdata["header"] = rs.headers
                     TCPdata["uri"] = rs.uri
-                    print "\r\n"
+                    print 'count',count
                 except:
                     pass
                 yield TCPdata
+
 if __name__ == '__main__':
     p = pcap.pcap()
     p = Capture(p)
@@ -62,4 +64,5 @@ if __name__ == '__main__':
     #     print i
 
     for i in p.getTCP_request():
+        print i['uri']
         print i
